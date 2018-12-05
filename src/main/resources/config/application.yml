@@ -1,0 +1,17 @@
+spring:
+    profiles: local
+name: test-YAML
+environment: test
+servers:
+    - www.abc.test.com
+    - www.xyz.test.com
+
+---
+spring:
+    profiles: production
+name: prod-YAML
+environment: production
+servers:
+    - www.abc.com
+    - www.xyz.com
+

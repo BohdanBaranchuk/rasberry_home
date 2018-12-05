@@ -1,0 +1,206 @@
+<!doctype html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+
+    <title>Home control system</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Control systems</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Heat floot</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Air</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Light</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Security</a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+<p/>
+
+<h3><span class="badge badge-secondary">Heat floor control system</span></h3>
+<!--<div class="alert alert-primary" role="alert">
+    <a class="btn btn-info" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"
+       aria-controls="multiCollapseExample1">Show/hide heat floor control elements</a>
+</div>-->
+
+<div class="row">
+    <div class="col">
+        <div id="multiCollapseExample1">
+            <div th:each="heatSystem : ${heatSystems}">
+                <div class="card" style="width: 33rem;">
+
+                    <div class="card-body">
+
+                        <h5 class="card-title" th:text="${heatSystem.roomName}">Room name</h5>
+                        <h6 class="card-subtitle mb-2 text-muted" th:text="${heatSystem.currentTemperature}">Current
+                            temperature °C</h6>
+                        <p class="card-text">
+
+                        <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+                            <div class="btn-group mr-2" role="group" aria-label="First group">
+                                <button type="button" class="btn btn-secondary"
+                                        th:onclick="|sendUpTemp('${heatSystem.roomName}')|"><span
+                                        class="glyphicon glyphicon-education" aria-hidden="true"></span>Up
+                                </button>
+                                <button type="button" class="btn btn-secondary"
+                                        th:onclick="|sendDownTemp('${heatSystem.roomName}')|">Down
+                                </button>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text" id="btnGroupAddon">°C</div>
+                                </div>
+                                <input type="text" th:id="|${heatSystem.roomName}-desiredTemperature|"
+                                       class="form-control" placeholder="Temperature in celsius"
+                                       aria-label="Input group example" aria-describedby="btnGroupAddon"
+                                       data-toggle="tooltip" data-placement="top" title="Temperature between 10-40 °C"
+                                       th:value="${heatSystem.desiredTemperature}" readonly="true"/>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-outline-primary" th:if="${heatSystem.modeName} == 'OFF'"
+                                th:disabled='true'>Off
+                        </button>
+                        <button type="button" class="btn btn-primary"
+                                th:onclick="|sendFloorMode('${heatSystem.roomName}','OFF')|"
+                                th:unless="${heatSystem.modeName} == 'OFF'">Off
+                        </button>
+
+                        <button type="button" class="btn btn-outline-success" th:if="${heatSystem.modeName} == 'AUTO'"
+                                th:disabled='true'>Auto
+                        </button>
+                        <button type="button" class="btn btn-success"
+                                th:onclick="|sendFloorMode('${heatSystem.roomName}','AUTO')|"
+                                th:unless="${heatSystem.modeName} == 'AUTO'">Auto
+                        </button>
+
+                        <button type="button" class="btn btn-outline-danger" th:if="${heatSystem.modeName} == 'ON'"
+                                th:disabled='true'>Manual ON
+                        </button>
+                        <button type="button" class="btn btn-danger"
+                                th:onclick="|sendFloorMode('${heatSystem.roomName}','ON')|"
+                                th:unless="${heatSystem.modeName} == 'ON'">Manual ON
+                        </button>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function sendUpTemp(roomName) {
+
+        $.post("/setTempUp",
+                {
+                    roomName: roomName
+                },
+                function (data, status) {
+                    console.log("Status: " + status);
+                });
+
+        var elementId = roomName + '-desiredTemperature';
+
+        var prevTemp = $('#' + elementId).val();
+
+        prevTemp = parseFloat(prevTemp);
+
+        var currentTemp = prevTemp + 1;
+
+        $('#' + elementId).val(currentTemp);
+    }
+
+    function sendDownTemp(roomName) {
+
+        $.post("/setTempDown",
+                {
+                    roomName: roomName
+                },
+                function (data, status) {
+                    console.log("Data: " + data + "\nStatus: " + status);
+                });
+
+        var elementId = roomName + '-desiredTemperature';
+
+        var prevTemp = $('#' + elementId).val();
+
+        prevTemp = parseFloat(prevTemp);
+
+        var currentTemp = prevTemp - 1;
+
+        $('#' + elementId).val(currentTemp);
+    }
+
+    function sendFloorMode(roomName, modeName) {
+
+        $.post("/setRoomMode",
+                {
+                    roomName: roomName,
+                    modeName: modeName
+                },
+                function (data, status) {
+                    console.log("Data: " + data + "\nStatus: " + status);
+                    location.reload();
+                });
+    }
+
+</script>
+<!--
+<form action="#" th:action="@{/saveStudent}" th:object="${student}" method="post">
+<table border="1">
+    <tr>
+        <td><label th:text="id" /></td>
+        <td><input type="number" th:field="*{id}" /></td>
+    </tr>
+    <tr>
+        <td><label th:text="name" /></td>
+        <td><input type="text" th:field="*{name}" /></td>
+    </tr>
+    <tr>
+        <td><input type="submit" value="Submit" /></td>
+    </tr>
+</table>
+</form>-->
+
+
+<script src="js/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+
+<script src="js/jquery-3.3.1.min.js"></script>
+
+<script src="js/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+
+<script src="js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
