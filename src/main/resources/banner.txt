@@ -1,2 +1,2 @@
 ${application.title}Smart home system
-${application.version}1
+${application.version}2
