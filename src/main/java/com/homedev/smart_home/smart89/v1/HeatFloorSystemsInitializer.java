@@ -10,13 +10,18 @@ import com.homedev.smart_home.smart89.v1.domain.models.home.rooms.Room;
 import com.homedev.smart_home.smart89.v1.domain.models.scheduler.ControlSystemScheduler;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 class HeatFloorSystemsInitializer {
 
+    private static final Logger log = LoggerFactory.getLogger(
+            HeatFloorSystemsInitializer.class);
+
     static void init(ApplicationContext applicationContext) {
 
-        System.out.println("Initialize hardware devices");
+        log.info("Initialize hardware devices");
 
         Flat flat = FlatProvider.getFlat();
 
@@ -28,7 +33,7 @@ class HeatFloorSystemsInitializer {
                 "/sys/bus/w1/devices/28-051685287cff/w1_slave",
                 3,
                 "Bath sensor");
-        scheduler.addTaskPerformer(bathroomTempSensor);
+        scheduler.addToEverySecondTasks(bathroomTempSensor);
 
         DiscreteOutput bathroomHeatFloorValve = new DiscreteOutputImpl(
                 RaspiPin.GPIO_08,
@@ -40,14 +45,14 @@ class HeatFloorSystemsInitializer {
                 bathroomTempSensor,
                 bathroomHeatFloorValve,
                 25.0F);
-        scheduler.addTaskPerformer(bathroomHeatFloorSystem);
+        scheduler.addToOnceMinuteTasks(bathroomHeatFloorSystem);
 
         // Kitchen
         TemperatureSensor kitchenTempSensor = new TemperatureSensor(
-                "/sys/bus/w1/devices/28-031683f660ff/w1_slave",//?????
+                "/sys/bus/w1/devices/28-031683f660ff/w1_slave",
                 1,
                 "Kitchen sensor");
-        scheduler.addTaskPerformer(kitchenTempSensor);
+        scheduler.addToEverySecondTasks(kitchenTempSensor);
 
         DiscreteOutput kitchenHeatFloorValve = new DiscreteOutputImpl(
                 RaspiPin.GPIO_04,
@@ -59,14 +64,14 @@ class HeatFloorSystemsInitializer {
                 kitchenTempSensor,
                 kitchenHeatFloorValve,
                 25);
-        scheduler.addTaskPerformer(kitchenHeatFloor);
+        scheduler.addToOnceMinuteTasks(kitchenHeatFloor);
 
         // Corridor
         TemperatureSensor corridorTempSensor = new TemperatureSensor(
                 "/sys/bus/w1/devices/28-0516853274ff/w1_slave",
                 2,
                 "Corridor sensor");
-        scheduler.addTaskPerformer(corridorTempSensor);
+        scheduler.addToEverySecondTasks(corridorTempSensor);
 
         DiscreteOutput corridorHeatFloorValve = new DiscreteOutputImpl(
                 RaspiPin.GPIO_05,
@@ -78,7 +83,7 @@ class HeatFloorSystemsInitializer {
                 corridorTempSensor,
                 corridorHeatFloorValve,
                 25);
-        scheduler.addTaskPerformer(corridorHeatFloor);
+        scheduler.addToOnceMinuteTasks(corridorHeatFloor);
 
         Room corridor = new Room("Corridor");
         corridor.addControlSystem(corridorHeatFloor);

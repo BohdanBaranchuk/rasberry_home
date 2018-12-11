@@ -3,11 +3,11 @@ package com.homedev.smart_home.smart89.v1.domain.models.automatic_systems;
 
 import com.homedev.smart_home.smart89.v1.domain.models.hardware.rasberry.api.DiscreteOutput;
 import com.homedev.smart_home.smart89.v1.domain.models.hardware.rasberry.api.sensor.Sensor;
-import com.homedev.smart_home.smart89.v1.domain.models.scheduler.TaskPerformer;
+import com.homedev.smart_home.smart89.v1.domain.models.scheduler.ScheduledTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class HeatFloorAutomaticSystem extends AutomaticSystem implements TaskPerformer {
+public class HeatFloorAutomaticSystem extends AutomaticSystem implements ScheduledTask {
 
     private static final Logger log = LoggerFactory.getLogger(
             HeatFloorAutomaticSystem.class);
@@ -44,23 +44,24 @@ public class HeatFloorAutomaticSystem extends AutomaticSystem implements TaskPer
         switch (mode) {
 
             case AUTO:
-                doControlActionAutoMode();
+                doControlActionInAutoMode();
                 break;
 
             case ON:
-                doControlActionOnMode();
+                doControlActionInOnMode();
                 break;
 
             case OFF:
-                doControlActionOffMode();
+                doControlActionInOffMode();
                 break;
 
             default:
+                log.error("Not supported mode: " + mode);
                 throw new RuntimeException("Not supported mode: " + mode);
         }
     }
 
-    private void doControlActionAutoMode() {
+    private void doControlActionInAutoMode() {
 
         float currentTemperature = controlledSensor.getValue();
 
@@ -68,18 +69,18 @@ public class HeatFloorAutomaticSystem extends AutomaticSystem implements TaskPer
         log.info("desiredTemperature: " + desiredTemperature);
 
         if (currentTemperature >= desiredTemperature) {
-            doControlActionOffMode();
+            doControlActionInOffMode();
         } else {
-            doControlActionOnMode();
+            doControlActionInOnMode();
         }
     }
 
-    private void doControlActionOnMode() {
+    private void doControlActionInOnMode() {
         log.info("send command output close from system: " + getName());
         actuatingOutput.close();
     }
 
-    private void doControlActionOffMode() {
+    private void doControlActionInOffMode() {
         log.info("send command output open from system " + getName());
         actuatingOutput.open();
     }

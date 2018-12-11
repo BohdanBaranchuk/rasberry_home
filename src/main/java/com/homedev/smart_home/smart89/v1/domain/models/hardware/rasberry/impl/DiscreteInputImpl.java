@@ -7,8 +7,12 @@ import com.pi4j.io.gpio.PinPullResistance;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DiscreteInputImpl extends IOPinWrapper implements Discreteinput {
+
+    private static final Logger log = LoggerFactory.getLogger(DiscreteInputImpl.class);
 
     private PinState pinState;
 
@@ -26,8 +30,9 @@ public class DiscreteInputImpl extends IOPinWrapper implements Discreteinput {
 
                 pinState = event.getState();
 
-                // display pin state on console
-                System.out.println(" --> GPIO PIN STATE CHANGE: " + event.getPin() + " = " + event.getState());
+                log.debug(
+                        " --> GPIO PIN STATE CHANGE: " +
+                                event.getPin() + " = " + event.getState());
             }
         });
     }

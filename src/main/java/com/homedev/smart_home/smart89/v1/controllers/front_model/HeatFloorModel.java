@@ -39,9 +39,11 @@ public class HeatFloorModel {
 
     public String toString() {
 
-        return "roomName: " + roomName + "\n" +
-                "currentTemperature: " + currentTemperature + "\n" +
-                "desiredTemperature: " + desiredTemperature + "\n" +
-                "modeName: " + modeName + "\n";
+        return String.format(
+                "roomName: %s\n currentTemperature: %f\n desiredTemperature: %d\n modeName: %s\n",
+                roomName,
+                currentTemperature,
+                desiredTemperature,
+                modeName);
     }
 }

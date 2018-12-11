@@ -23,13 +23,13 @@ import java.util.List;
 
 @Controller
 @EnableAutoConfiguration
-public class MainPageController {
+public class HeatFloorPageController {
 
     private static final Logger log = LoggerFactory.getLogger(
-            MainPageController.class);
+            HeatFloorPageController.class);
 
     @GetMapping("/floor")
-    public String greetingForm(Model model) {
+    public String floorFormAction(Model model) {
 
         Flat flat = FlatProvider.getFlat();
 
@@ -116,7 +116,7 @@ public class MainPageController {
 
                 heatFloorAutomaticSystem.setDesiredTemperature(increasedDesiredTemperature);
 
-                log.info("Increased temp for room: " + room);
+                log.info("setTempUp action for room: " + room);
 
                 break;
             }
@@ -148,7 +148,7 @@ public class MainPageController {
 
                 heatFloorAutomaticSystem.setDesiredTemperature(decreasedDesiredTemperature);
 
-                log.info("Decreased temp for room: " + room);
+                log.info("setTempDown action for room: " + room);
 
                 break;
             }
@@ -179,7 +179,7 @@ public class MainPageController {
 
                 heatFloorAutomaticSystem.setMode(automaticSystemMode);
 
-                log.info("Set mode " + automaticSystemMode + "for heatFloorAutomaticSystem: " + heatFloorAutomaticSystem);
+                log.info("Set mode " + automaticSystemMode + " for heatFloorAutomaticSystem: " + heatFloorAutomaticSystem);
 
                 break;
             }
@@ -199,6 +199,8 @@ public class MainPageController {
                 return room;
             }
         }
+
+        log.error("Not found room by name: " + roomName);
 
         throw new RuntimeException("Not found room by name: " + roomName);
     }

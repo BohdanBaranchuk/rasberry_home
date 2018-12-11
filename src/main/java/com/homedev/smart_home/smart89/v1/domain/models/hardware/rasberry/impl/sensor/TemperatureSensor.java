@@ -2,13 +2,13 @@ package com.homedev.smart_home.smart89.v1.domain.models.hardware.rasberry.impl.s
 
 import com.homedev.smart_home.smart89.v1.domain.models.hardware.rasberry.api.sensor.Sensor;
 import com.homedev.smart_home.smart89.v1.domain.models.hardware.rasberry.api.sensor.SensorType;
-import com.homedev.smart_home.smart89.v1.domain.models.scheduler.TaskPerformer;
+import com.homedev.smart_home.smart89.v1.domain.models.scheduler.ScheduledTask;
 import com.homedev.smart_home.smart89.v1.jdk.libs.file_utils.FileUtils;
 import com.homedev.smart_home.smart89.v1.jdk.libs.string_utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TemperatureSensor extends Sensor implements TaskPerformer {
+public class TemperatureSensor extends Sensor implements ScheduledTask {
 
     private static final Logger log = LoggerFactory.getLogger(TemperatureSensor.class);
 
@@ -57,6 +57,6 @@ public class TemperatureSensor extends Sensor implements TaskPerformer {
 
         value = rawValue / 1000;
 
-        log.info("parsed value " + value + " for " + getLogicalName());
+        log.debug("parsed value " + value + " for " + getLogicalName());
     }
 }
