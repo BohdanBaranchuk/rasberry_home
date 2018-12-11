@@ -11,6 +11,8 @@ public class ControlSystemScheduler {
 
     private List<ScheduledTask> everySecondsTasks = new CopyOnWriteArrayList<>();
 
+    private List<ScheduledTask> halfMinuteTasks = new CopyOnWriteArrayList<>();
+
     private List<ScheduledTask> oneMinuteTasks = new CopyOnWriteArrayList<>();
 
     public ControlSystemScheduler() {
@@ -24,10 +26,22 @@ public class ControlSystemScheduler {
         oneMinuteTasks.add(scheduledTask);
     }
 
+    public void addToHalfMinuteTasks(ScheduledTask scheduledTask) {
+        halfMinuteTasks.add(scheduledTask);
+    }
+
     @Scheduled(initialDelay = 5000, fixedRate = 1000)
     private void performEverySecondsTasks() {
 
         for (ScheduledTask performer : everySecondsTasks) {
+            performer.performTask();
+        }
+    }
+
+    @Scheduled(initialDelay = 5000, fixedRate = 30000)
+    private void performHalfMinuteTask() {
+
+        for (ScheduledTask performer : halfMinuteTasks) {
             performer.performTask();
         }
     }

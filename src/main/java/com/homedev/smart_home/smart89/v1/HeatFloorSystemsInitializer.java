@@ -45,7 +45,7 @@ class HeatFloorSystemsInitializer {
                 bathroomTempSensor,
                 bathroomHeatFloorValve,
                 25.0F);
-        scheduler.addToOnceMinuteTasks(bathroomHeatFloorSystem);
+        scheduler.addToHalfMinuteTasks(bathroomHeatFloorSystem);
 
         // Kitchen
         TemperatureSensor kitchenTempSensor = new TemperatureSensor(
@@ -64,7 +64,7 @@ class HeatFloorSystemsInitializer {
                 kitchenTempSensor,
                 kitchenHeatFloorValve,
                 25);
-        scheduler.addToOnceMinuteTasks(kitchenHeatFloor);
+        scheduler.addToHalfMinuteTasks(kitchenHeatFloor);
 
         // Corridor
         TemperatureSensor corridorTempSensor = new TemperatureSensor(
@@ -83,7 +83,7 @@ class HeatFloorSystemsInitializer {
                 corridorTempSensor,
                 corridorHeatFloorValve,
                 25);
-        scheduler.addToOnceMinuteTasks(corridorHeatFloor);
+        scheduler.addToHalfMinuteTasks(corridorHeatFloor);
 
         Room corridor = new Room("Corridor");
         corridor.addControlSystem(corridorHeatFloor);
