@@ -25,7 +25,7 @@ public class ApplicationRunner {
 
         ApplicationContext applicationContext = app.run(args);
 
-        //HeatFloorSystemsInitializer.init(applicationContext); // TODO:
+        HeatFloorSystemsInitializer.init(applicationContext); // TODO:
 
         log.info("Successfully initialized smart home app");
     }
