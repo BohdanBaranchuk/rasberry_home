@@ -1,0 +1,7 @@
+server:
+  port: 8070
+
+logging:
+  level:
+    root: INFO
+    com.homedev: DEBUG
