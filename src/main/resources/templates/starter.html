@@ -13,38 +13,9 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Control systems</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/floor">Heat floot</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Air</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Light</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/security">Security</a>
-            </li>
-
-        </ul>
-    </div>
-</nav>
-
-<p/>
+<div th:replace="fragments/header :: header">...</div>
 
 <h3><span class="badge badge-secondary">Heat floor control system</span></h3>
-<!--<div class="alert alert-primary" role="alert">
-    <a class="btn btn-info" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"
-       aria-controls="multiCollapseExample1">Show/hide heat floor control elements</a>
-</div>-->
 
 <div class="row">
     <div class="col">

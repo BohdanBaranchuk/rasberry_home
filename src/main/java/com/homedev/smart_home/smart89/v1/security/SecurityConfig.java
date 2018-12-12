@@ -35,20 +35,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().logout()
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
-                .logoutSuccessUrl("/security")
+                .logoutSuccessUrl("/floor")
                 .permitAll()
 
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler);
-        ;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .passwordEncoder(passwordEncoder())
-                .withUser("user")
+                .withUser("admin")
                 .password(ENCODED_PASSWORD)
                 .roles("ADMIN");
     }
