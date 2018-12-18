@@ -7,10 +7,10 @@ import com.homedev.smart_home.smart89.v1.domain.models.automatic_systems.Automat
 import com.homedev.smart_home.smart89.v1.domain.models.automatic_systems.HeatFloorAutomaticSystem;
 import com.homedev.smart_home.smart89.v1.domain.models.hardware.rasberry.api.sensor.Sensor;
 import com.homedev.smart_home.smart89.v1.domain.models.home.Flat;
-import com.homedev.smart_home.smart89.v1.domain.models.home.FlatProvider;
 import com.homedev.smart_home.smart89.v1.domain.models.home.rooms.Room;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,10 +28,11 @@ public class HeatFloorPageController {
     private static final Logger log = LoggerFactory.getLogger(
             HeatFloorPageController.class);
 
+    @Autowired
+    private Flat flat;
+
     @GetMapping("/floor")
     public String floorFormAction(Model model) {
-
-        Flat flat = FlatProvider.getFlat();
 
         List<HeatFloorModel> frontModels = new ArrayList<>();
 
@@ -189,8 +190,6 @@ public class HeatFloorPageController {
     }
 
     private Room getRoomByName(String roomName) {
-
-        Flat flat = FlatProvider.getFlat();
 
         for (Room room : flat) {
             String flatRoomName = room.getName();

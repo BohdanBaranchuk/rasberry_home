@@ -1,5 +1,6 @@
 package com.homedev.smart_home.smart89.v1;
 
+import com.homedev.smart_home.smart89.v1.initializers.HomeSystemsInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.Banner;
@@ -25,7 +26,10 @@ public class ApplicationRunner {
 
         ApplicationContext applicationContext = app.run(args);
 
-        HeatFloorSystemsInitializer.init(applicationContext); // TODO:
+        HomeSystemsInitializer homeSystemsInitializer = applicationContext.getBean(
+                HomeSystemsInitializer.class);
+
+        homeSystemsInitializer.initializeAllHomeSystems();
 
         log.info("Successfully initialized smart home app");
     }

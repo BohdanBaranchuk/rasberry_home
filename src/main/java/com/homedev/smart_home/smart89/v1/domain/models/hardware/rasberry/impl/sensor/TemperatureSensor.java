@@ -15,11 +15,9 @@ public class TemperatureSensor extends Sensor implements ScheduledTask {
     private SensorType type = SensorType.TEMPERATURE;
 
     public TemperatureSensor(
-            String physicalName,
-            long id,
-            String logicalName) {
+            String sensorValueFilePath) {
 
-        super(physicalName, id, logicalName);
+        super(sensorValueFilePath);
     }
 
     public SensorType getType() {
@@ -34,15 +32,15 @@ public class TemperatureSensor extends Sensor implements ScheduledTask {
         } catch (Exception ex) {
 
             log.error(
-                    "Error updating temperature from file for "
-                            + getLogicalName(), ex);
+                    "Error read temperature value from file: "
+                            + getSensorValueFilePath(), ex);
         }
     }
 
     private void updateTemperatureFromFile() throws Exception {
 
         String fileContent = FileUtils.readFileAsStringBuffered(
-                physicalName);
+                sensorValueFilePath);
 
         log.debug("temp sensor read from file fileContent: " + fileContent);
 
@@ -51,12 +49,12 @@ public class TemperatureSensor extends Sensor implements ScheduledTask {
                 "t=",
                 "\n");
 
-        log.debug("read temperature: " + temperature);
+        log.debug("Read temperature: " + temperature);
 
         float rawValue = Float.valueOf(temperature);
 
         value = rawValue / 1000;
 
-        log.debug("parsed value " + value + " for " + getLogicalName());
+        log.debug("Parsed value " + value + " from " + getSensorValueFilePath());
     }
 }

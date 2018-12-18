@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta roomName="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
     <link rel="stylesheet" href="css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
@@ -25,7 +25,7 @@
 
                     <div class="card-body">
 
-                        <h5 class="card-title" th:text="${heatSystem.roomName}">Room name</h5>
+                        <h5 class="card-title" th:text="${heatSystem.roomName}">Room roomName</h5>
                         <h6 class="card-subtitle mb-2 text-muted" th:text="${heatSystem.currentTemperature}">Current
                             temperature °C</h6>
                         <p class="card-text">
@@ -149,8 +149,8 @@
         <td><input type="number" th:field="*{id}" /></td>
     </tr>
     <tr>
-        <td><label th:text="name" /></td>
-        <td><input type="text" th:field="*{name}" /></td>
+        <td><label th:text="roomName" /></td>
+        <td><input type="text" th:field="*{roomName}" /></td>
     </tr>
     <tr>
         <td><input type="submit" value="Submit" /></td>

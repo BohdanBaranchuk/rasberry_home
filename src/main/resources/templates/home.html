@@ -8,8 +8,8 @@
 <h1>Kitchen</h1>
 <form action="#" th:action="@{/set-floor-mode}" method="post">
 
-    <p th:text="'Room name: '"/>
-    <p th:text="'name: ' + ${name}"/>
+    <p th:text="'Room roomName: '"/>
+    <p th:text="'roomName: ' + ${roomName}"/>
     <p th:text="'value: ' + ${value}"/>
 
     <p><input type="submit" value="Set temperature"/> <input type="reset" value="Reset"/></p>

@@ -1,7 +1,61 @@
+spring:
+  profiles:
+    active: dev
+
+# devices settings
+smart-home:
+  config:
+    floors-config:
+      -
+          id: 1
+          room-name: "Bathroom"
+          sensor-value-file-path: "/sys/bus/w1/devices/28-051685287cff/w1_slave"
+          valve-pin-number: 8
+      -
+          id: 2
+          room-name: "Kitchen"
+          sensor-value-file-path: "/sys/bus/w1/devices/28-031683f660ff/w1_slave"
+          valve-pin-number: 4
+      -
+          id: 3
+          room-name: "Corridor"
+          sensor-value-file-path: "/sys/bus/w1/devices/28-0516853274ff/w1_slave"
+          valve-pin-number: 5
+
+---
+spring:
+  profiles: dev
+
 server:
   port: 8070
 
 logging:
   level:
     root: INFO
-    com.homedev: DEBUG
+  file: smart-home.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"
+
+---
+spring:
+  profiles: production
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: WARN
+    com.homedev.smart_home: INFO
+  file: /var/logs/smart-home/smart-home.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"
+
+#server:
+#  port: 8443
+#  ssl:
+#    key-store: classpath:ssl/ssl_keys.jks
+#    key-store-password: secret
+#    key-password: secret

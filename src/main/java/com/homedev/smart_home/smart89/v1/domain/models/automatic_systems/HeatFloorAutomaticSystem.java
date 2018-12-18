@@ -21,16 +21,12 @@ public class HeatFloorAutomaticSystem extends AutomaticSystem implements Schedul
     public HeatFloorAutomaticSystem(
             String name,
             Sensor controlledSensor,
-            DiscreteOutput actuatingOutput,
-            float desiredTemperature) {
+            DiscreteOutput actuatingOutput) {
 
         super(name, AutomaticSystemType.HEATING_FLOOR);
 
         this.controlledSensor = controlledSensor;
         this.actuatingOutput = actuatingOutput;
-        this.desiredTemperature = desiredTemperature;
-
-        setMode(AutomaticSystemMode.AUTO);
     }
 
     public void performTask() {
