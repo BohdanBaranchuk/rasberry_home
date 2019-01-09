@@ -18,6 +18,8 @@ public class HeatFloorPageTestController {
     private static final Logger log = LoggerFactory.getLogger(
             HeatFloorPageTestController.class);
 
+    private static int counter = 1;
+
     private HeatFloorDatabaseModelRepository heatFloorRepository;
 
     @Autowired
@@ -46,6 +48,17 @@ public class HeatFloorPageTestController {
 
     @RequestMapping(value = "/put")
     public String addToReadingList() {
+
+        HeatFloorDatabaseModel heatFloorDatabaseModel = new HeatFloorDatabaseModel();
+        heatFloorDatabaseModel.setRoomName(counter++ + "hello");
+
+        heatFloorRepository.save(heatFloorDatabaseModel);
+
+        return "redirect:/get";
+    }
+
+    @RequestMapping(value = "/save")
+    public String save() {
 
         HeatFloorDatabaseModel heatFloorDatabaseModel = new HeatFloorDatabaseModel();
         heatFloorDatabaseModel.setRoomName("hello");

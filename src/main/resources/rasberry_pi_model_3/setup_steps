@@ -1,0 +1,33 @@
+# install mySQL:
+Source:
+https://www.stewright.me/2014/06/tutorial-install-mysql-server-on-raspberry-pi/
+https://stackoverflow.com/questions/8348506/grant-remote-access-of-mysql-database-from-any-ip-address
+
+user: root
+pass: Wokolad7
+
+### Allow externl access to DB
+
+vim /etc/mysql/my.cnf
+
+Comment out nest lines:
+###bind-address           = 127.0.0.1
+###skip-networking
+
+### restart MySQL
+~ /etc/init.d/mysql restart
+
+
+CREATE DATABASE homedb
+CREATE USER 'homeuser'@'%' IDENTIFIED BY 'homepassword';
+
+### grant access from all ips
+GRANT ALL PRIVILEGES ON smart_home.* TO 'home'@'%';
+
+
+# autostart scripts in rasp
+sudo crontab -e // for run script under sudo privileges
+@reboot /home/pi/Desktop/start_home.sh
+
+# install visualvm
+sudo apt-get install visualvm

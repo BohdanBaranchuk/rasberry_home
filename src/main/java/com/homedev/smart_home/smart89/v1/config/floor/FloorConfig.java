@@ -1,4 +1,4 @@
-package com.homedev.smart_home.smart89.v1.config;
+package com.homedev.smart_home.smart89.v1.config.floor;
 
 public class FloorConfig {
 
@@ -7,6 +7,10 @@ public class FloorConfig {
     private String roomName;
 
     private String sensorValueFilePath;
+
+    private float defaultStartupTemperature;
+
+    private String defaultStartupMode;
 
     private int valvePinNumber;
 
@@ -40,5 +44,21 @@ public class FloorConfig {
 
     public void setValvePinNumber(int valvePinNumber) {
         this.valvePinNumber = valvePinNumber;
+    }
+
+    public float getDefaultStartupTemperature() {
+        return defaultStartupTemperature;
+    }
+
+    public void setDefaultStartupTemperature(float defaultStartupTemperature) {
+        this.defaultStartupTemperature = defaultStartupTemperature;
+    }
+
+    public String getDefaultStartupMode() {
+        return defaultStartupMode;
+    }
+
+    public void setDefaultStartupMode(String defaultStartupMode) {
+        this.defaultStartupMode = defaultStartupMode;
     }
 }

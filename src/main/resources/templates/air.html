@@ -1,0 +1,177 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <meta charset="utf-8"/>
+    <meta roomName="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css"
+          integrity="" crossorigin="anonymous"/>
+
+    <title>Home control system</title>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header">...</div>
+
+<h3><span class="badge badge-info">Air control system</span></h3>
+
+<div class="row">
+    <div class="col">
+        <div id="multiCollapseExample1">
+            <div th:each="airSystem : ${airSystems}">
+                <div class="card" style="width: 33rem;">
+
+                    <div class="card-body">
+
+                        <h5 class="card-title" th:text="${airSystem.roomName}">Room roomName</h5>
+                        <h6 class="card-subtitle mb-2 text-muted" th:text="${airSystem.currentTemperature}">Current
+                            temperature °C</h6>
+                        <p class="card-text">
+
+                        <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+                            <div class="btn-group mr-2" role="group" aria-label="First group">
+                                <button type="button" class="btn btn-secondary"
+                                        th:onclick="|sendUpTemp('${airSystem.roomName}')|"><span
+                                        class="glyphicon glyphicon-education" aria-hidden="true"></span>Up
+                                </button>
+                                <button type="button" class="btn btn-secondary"
+                                        th:onclick="|sendDownTemp('${airSystem.roomName}')|">Down
+                                </button>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text" id="btnGroupAddon">°C</div>
+                                </div>
+                                <input type="text" th:id="|${airSystem.roomName}-desiredTemperature|"
+                                       class="form-control" placeholder="Temperature in celsius"
+                                       aria-label="Input group example" aria-describedby="btnGroupAddon"
+                                       data-toggle="tooltip" data-placement="top" title="Temperature between 10-40 °C"
+                                       th:value="${airSystem.desiredTemperature}" readonly="true"/>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-outline-primary" th:if="${airSystem.modeName} == 'OFF'"
+                                th:disabled='true'>Off
+                        </button>
+                        <button type="button" class="btn btn-primary"
+                                th:onclick="|sendFloorMode('${airSystem.roomName}','OFF')|"
+                                th:unless="${airSystem.modeName} == 'OFF'">Off
+                        </button>
+
+                        <button type="button" class="btn btn-outline-success" th:if="${airSystem.modeName} == 'AUTO'"
+                                th:disabled='true'>Auto
+                        </button>
+                        <button type="button" class="btn btn-success"
+                                th:onclick="|sendFloorMode('${airSystem.roomName}','AUTO')|"
+                                th:unless="${airSystem.modeName} == 'AUTO'">Auto
+                        </button>
+
+                        <button type="button" class="btn btn-outline-danger" th:if="${airSystem.modeName} == 'ON'"
+                                th:disabled='true'>Manual ON
+                        </button>
+                        <button type="button" class="btn btn-danger"
+                                th:onclick="|sendFloorMode('${airSystem.roomName}','ON')|"
+                                th:unless="${airSystem.modeName} == 'ON'">Manual ON
+                        </button>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function sendUpTemp(roomName) {
+
+        $.post("/air/setTempUp",
+                {
+                    roomName: roomName
+                },
+                function (data, status) {
+                    console.log("Status: " + status);
+                });
+
+        var elementId = roomName + '-desiredTemperature';
+
+        var prevTemp = $('#' + elementId).val();
+
+        prevTemp = parseFloat(prevTemp);
+
+        var currentTemp = prevTemp + 1;
+
+        $('#' + elementId).val(currentTemp);
+    }
+
+    function sendDownTemp(roomName) {
+
+        $.post("/air/setTempDown",
+                {
+                    roomName: roomName
+                },
+                function (data, status) {
+                    console.log("Data: " + data + "\nStatus: " + status);
+                });
+
+        var elementId = roomName + '-desiredTemperature';
+
+        var prevTemp = $('#' + elementId).val();
+
+        prevTemp = parseFloat(prevTemp);
+
+        var currentTemp = prevTemp - 1;
+
+        $('#' + elementId).val(currentTemp);
+    }
+
+    function sendFloorMode(roomName, modeName) {
+
+        $.post("/air/setRoomMode",
+                {
+                    roomName: roomName,
+                    modeName: modeName
+                },
+                function (data, status) {
+                    console.log("Data: " + data + "\nStatus: " + status);
+                    location.reload();
+                });
+    }
+
+</script>
+<!--
+<form action="#" th:action="@{/saveStudent}" th:object="${student}" method="post">
+<table border="1">
+    <tr>
+        <td><label th:text="id" /></td>
+        <td><input type="number" th:field="*{id}" /></td>
+    </tr>
+    <tr>
+        <td><label th:text="roomName" /></td>
+        <td><input type="text" th:field="*{roomName}" /></td>
+    </tr>
+    <tr>
+        <td><input type="submit" value="Submit" /></td>
+    </tr>
+</table>
+</form>-->
+
+
+<script src="/js/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+
+<script src="/js/jquery-3.3.1.min.js"></script>
+
+<script src="/js/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+
+<script src="/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

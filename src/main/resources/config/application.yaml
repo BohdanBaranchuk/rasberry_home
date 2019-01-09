@@ -1,6 +1,12 @@
 spring:
+
   profiles:
-    active: dev
+    active: production
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
 
 # devices settings
 smart-home:
@@ -11,20 +17,54 @@ smart-home:
           room-name: "Bathroom"
           sensor-value-file-path: "/sys/bus/w1/devices/28-051685287cff/w1_slave"
           valve-pin-number: 8
+          default-startup-temperature: 30
+          default-startup-mode: AUTO
       -
           id: 2
           room-name: "Kitchen"
           sensor-value-file-path: "/sys/bus/w1/devices/28-031683f660ff/w1_slave"
           valve-pin-number: 4
+          default-startup-temperature: 28
+          default-startup-mode: AUTO
       -
           id: 3
           room-name: "Corridor"
           sensor-value-file-path: "/sys/bus/w1/devices/28-0516853274ff/w1_slave"
           valve-pin-number: 5
+          default-startup-temperature: 27
+          default-startup-mode: AUTO
+    air-config:
+          id: 4
+          room-name: "Bedroom"
+          sensor-value-file-path: "/sys/bus/w1/devices/28-0516852f87ff/w1_slave"
+          boiler-pin-number: 9
+          default-startup-temperature: 22
+          default-startup-mode: AUTO
+
+management:
+  security:
+    enabled: false
+  context-path: /monitoring
+
+endpoints:
+  shutdown:
+    enabled: true
+    id: kill
+
+info:
+  contactEmail: baranchuk.b@gmail.com
+  skype: bbpamxprog
 
 ---
 spring:
-  profiles: dev
+  profiles: development
+
+  datasource:
+    url: jdbc:mysql://192.168.1.32/homedb
+    username: homeuser
+    password: homepassword
+    tomcat:
+      default-auto-commit: true
 
 server:
   port: 8070
@@ -40,6 +80,13 @@ logging:
 ---
 spring:
   profiles: production
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1/homedb
+    username: homeuser
+    password: homepassword
+    tomcat:
+      default-auto-commit: true
 
 server:
   port: 8080
