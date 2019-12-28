@@ -31,3 +31,5 @@ sudo crontab -e // for run script under sudo privileges
 
 # install visualvm
 sudo apt-get install visualvm
+
+

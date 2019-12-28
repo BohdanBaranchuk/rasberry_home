@@ -1,6 +1,7 @@
 package com.homedev.smart_home.smart89.v1.domain.models.hardware.rasberry.mock;
 
 import com.homedev.smart_home.smart89.v1.domain.models.hardware.rasberry.api.DiscreteOutput;
+import com.homedev.smart_home.smart89.v1.domain.models.hardware.rasberry.api.DiscreteOutputState;
 import org.apache.log4j.Logger;
 
 public class DiscreteOutputMock implements DiscreteOutput {
@@ -21,5 +22,10 @@ public class DiscreteOutputMock implements DiscreteOutput {
 
     public void pulseClose(long pulseTime) {
         logger.info("pulseClose outut for pulseTime: " + pulseTime);
+    }
+
+    @Override
+    public DiscreteOutputState getOutputState() {
+        return DiscreteOutputState.OFF;
     }
 }

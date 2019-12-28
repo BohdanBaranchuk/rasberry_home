@@ -1,0 +1,6 @@
+
+# how to use sendGrid:
+echo "export SENDGRID_API_KEY='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'" > sendgrid.env
+echo "sendgrid.env" >> .gitignore
+source ./sendgrid.env
+# bbaranch username

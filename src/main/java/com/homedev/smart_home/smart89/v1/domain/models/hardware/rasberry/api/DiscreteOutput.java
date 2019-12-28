@@ -9,4 +9,6 @@ public interface DiscreteOutput {
     void toggle();
 
     void pulseClose(long pulseTime);
+
+    DiscreteOutputState getOutputState();
 }
